@@ -1,16 +1,21 @@
-import { RemoveCircleOutline } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
 interface ClearInputInterface {
   show: boolean;
   onChange: VoidFunction;
 }
+
 const ClearInput = (props: ClearInputInterface) => {
-  if (props.show)
+  if (props.show) {
     return (
-      <IconButton color="error" onClick={props.onChange} edge="end">
-        {<RemoveCircleOutline />}
-      </IconButton>
+      <button
+        type="button"
+        className="text-red-500 p-2 focus:outline-none hover:text-red-600"
+        onClick={props.onChange}
+      >
+        Clear
+      </button>
     );
+  }
+
   return null;
 };
 
