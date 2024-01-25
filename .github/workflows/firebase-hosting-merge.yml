@@ -6,15 +6,18 @@ name: Deploy to Firebase Hosting on merge
   push:
     branches:
       - main
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - run: npm i && npm run build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CAMBREW_CALCULATOR }}'
-          channelId: live
-          projectId: cambrew-calculator
+      - name: Deploy to Firebase Hosting
+        run: |
+          FIREBASE_CLI_EXPERIMENTS=webframeworks npx firebase deploy --only hosting --project cambrew-calculator --debug
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CAMBREW_CALCULATOR }}
+          CHANNEL_ID: live
+          PROJECT_ID: cambrew-calculator
